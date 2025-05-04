@@ -2,7 +2,7 @@
 
 A modern React application that allows users to explore detailed information about countries around the world using the REST Countries API.
 
-**Live Demo:** [Countries Explorer](https://countries-explorer-react.netlify.app)
+**Live Demo:** [Countries Explorer](https://doncountry.netlify.app/)
 
 ## 📋 Features
 
@@ -48,7 +48,7 @@ This application integrates with the [REST Countries API](https://restcountries.
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/yourusername/countries-explorer.git
+   git clone https://github.com/it22248244/country_explorer_project.git
    cd countries-explorer
    ```
 
