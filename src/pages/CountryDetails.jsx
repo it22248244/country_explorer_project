@@ -5,6 +5,7 @@ import { fetchCountryByCode } from '../services/api';
 export default function CountryDetails() {
   const { code } = useParams();
   const [country, setCountry] = useState(null);
+  const [borderCountries, setBorderCountries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -15,6 +16,15 @@ export default function CountryDetails() {
         const data = await fetchCountryByCode(code);
         setCountry(data);
         setError(null);
+
+        // Load border countries if they exist
+        if (data.borders && data.borders.length > 0) {
+          const borderPromises = data.borders.map(borderCode => 
+            fetchCountryByCode(borderCode)
+          );
+          const borderData = await Promise.all(borderPromises);
+          setBorderCountries(borderData);
+        }
       } catch (err) {
         setError('Failed to load country details');
         console.error(err);
@@ -171,7 +181,7 @@ export default function CountryDetails() {
                   <div className="flex items-center bg-white/5 backdrop-blur-sm p-3 rounded-xl border border-white/10 hover:bg-white/10 transition-colors duration-300">
                     <div className="p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg mr-3">
                       <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
                       </svg>
                     </div>
                     <div>
@@ -209,17 +219,22 @@ export default function CountryDetails() {
               </div>
 
               {/* Border Countries */}
-              {country.borders && country.borders.length > 0 && (
+              {borderCountries.length > 0 && (
                 <div className="mt-8">
                   <h2 className="text-2xl font-semibold mb-4 text-white">Border Countries</h2>
                   <div className="flex flex-wrap gap-3">
-                    {country.borders.map((borderCode) => (
+                    {borderCountries.map((borderCountry) => (
                       <Link
-                        key={borderCode}
-                        to={`/country/${borderCode}`}
-                        className="px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20 hover:scale-105 hover:shadow-lg"
+                        key={borderCountry.cca3}
+                        to={`/country/${borderCountry.cca3}`}
+                        className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20 hover:scale-105 hover:shadow-lg"
                       >
-                        {borderCode}
+                        <img 
+                          src={borderCountry.flags.svg} 
+                          alt={`${borderCountry.name.common} flag`}
+                          className="w-6 h-4 object-cover rounded"
+                        />
+                        <span>{borderCountry.name.common}</span>
                       </Link>
                     ))}
                   </div>
