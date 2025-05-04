@@ -4,8 +4,6 @@ A modern React application that allows users to explore detailed information abo
 
 **Live Demo:** [Countries Explorer](https://countries-explorer-react.netlify.app)
 
-![Countries Explorer Screenshot](https://placeholder-for-app-screenshot.com/screenshot.png)
-
 ## 📋 Features
 
 - **Interactive Country Explorer**: Browse through countries with a visually appealing interface
