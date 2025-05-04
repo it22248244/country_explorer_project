@@ -93,7 +93,7 @@ countries-explorer/
 ├── public/
 │   ├── index.html
 │   ├── manifest.json
-│   └── ...
+│   └── netlify.toml
 ├── src/
 │   ├── components/          # Reusable UI components
 │   │   ├── BackgroundCarousel.jsx
