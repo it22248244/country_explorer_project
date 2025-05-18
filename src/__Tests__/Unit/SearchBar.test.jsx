@@ -1,7 +1,7 @@
 // src/__Tests__/Unit/SearchBar.test.jsx
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import SearchBar from '../../components/SearchBar';
+import SearchBar from '../../components/EnhancedSearchBar';
 
 describe('SearchBar Component', () => {
   // Set up fake timers before each test
