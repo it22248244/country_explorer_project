@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchAllCountries } from "../services/api";
+import { fetchAllCountries, fetchCountriesByRegion, fetchCountryByName } from "../services/api";
 import CountryCard from "../components/CountryCard";
 import EnhancedSearchBar from "../components/EnhancedSearchBar";
 import RegionFilter from "../components/RegionFilter";
@@ -20,20 +20,17 @@ export default function HomePage() {
       try {
         setLoading(true);
         setError(null);
-        let data = await fetchAllCountries();
-        
-        // Apply search filter if there's a search term
+        let data;
+
         if (searchTerm) {
-          data = data.filter(country => 
-            country.name.common.toLowerCase().startsWith(searchTerm.toLowerCase())
-          );
-        }
-        
-        // Apply region filter if selected
-        if (selectedRegion) {
-          data = data.filter(country => 
-            country.region === selectedRegion
-          );
+          // Use fetchCountryByName when there's a search term
+          data = await fetchCountryByName(searchTerm);
+        } else if (selectedRegion) {
+          // Use fetchCountriesByRegion when a region is selected
+          data = await fetchCountriesByRegion(selectedRegion);
+        } else {
+          // Use fetchAllCountries as fallback
+          data = await fetchAllCountries();
         }
         
         // Apply language filter if selected
@@ -46,8 +43,12 @@ export default function HomePage() {
           );
         }
         
-        // Sort countries alphabetically
-        data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+        // Sort countries alphabetically only if data exists
+        if (data && Array.isArray(data)) {
+          data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+        } else {
+          data = [];
+        }
         
         setCountries(data);
         setRetryCount(0); // Reset retry count on success

@@ -1,34 +1,13 @@
 // EnhancedSearchBar.jsx
 import { useState, useEffect, useRef } from 'react';
+import { fetchCountryByName } from '../services/api';
 
 const EnhancedSearchBar = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [allCountries, setAllCountries] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const searchRef = useRef(null);
-
-  useEffect(() => {
-    // Fetch all countries when component mounts
-    const fetchCountries = async () => {
-      try {
-        const response = await fetch('https://restcountries.com/v3.1/all');
-        const data = await response.json();
-        // Sort countries alphabetically by name
-        const sortedCountries = data.sort((a, b) => 
-          a.name.common.localeCompare(b.name.common)
-        );
-        setAllCountries(sortedCountries);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching countries:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchCountries();
-  }, []);
 
   useEffect(() => {
     // Handle clicks outside the search component
@@ -44,17 +23,33 @@ const EnhancedSearchBar = ({ onSearch }) => {
     };
   }, []);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = async (e) => {
     const value = e.target.value;
     setSearchTerm(value);
     
     if (value.length > 0) {
-      // Filter countries that start with the search term
-      const filtered = allCountries.filter(country =>
-        country.name.common.toLowerCase().startsWith(value.toLowerCase())
-      );
-      setSuggestions(filtered.slice(0, 5)); // Show top 5 suggestions
-      setShowSuggestions(true);
+      setLoading(true);
+      try {
+        // Use fetchCountryByName to get suggestions
+        const countries = await fetchCountryByName(value);
+        // Sort countries alphabetically only if data exists
+        if (countries && Array.isArray(countries)) {
+          const sortedCountries = countries.sort((a, b) => 
+            a.name.common.localeCompare(b.name.common)
+          );
+          setSuggestions(sortedCountries.slice(0, 5)); // Show top 5 suggestions
+          setShowSuggestions(true);
+        } else {
+          setSuggestions([]);
+          setShowSuggestions(false);
+        }
+      } catch (error) {
+        console.error('Error fetching suggestions:', error);
+        setSuggestions([]);
+        setShowSuggestions(false);
+      } finally {
+        setLoading(false);
+      }
     } else {
       setSuggestions([]);
       setShowSuggestions(false);
