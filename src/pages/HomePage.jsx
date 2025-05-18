@@ -21,7 +21,7 @@ export default function HomePage() {
         setLoading(true);
         setError(null);
         let data;
-
+        
         if (searchTerm) {
           // Use fetchCountryByName when there's a search term
           data = await fetchCountryByName(searchTerm);
@@ -45,7 +45,7 @@ export default function HomePage() {
         
         // Sort countries alphabetically only if data exists
         if (data && Array.isArray(data)) {
-          data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+        data.sort((a, b) => a.name.common.localeCompare(b.name.common));
         } else {
           data = [];
         }

@@ -16,27 +16,27 @@ jest.mock('../../services/api', () => ({
 import { fetchAllCountries, fetchCountriesByRegion, fetchCountryByName } from '../../services/api';
 
 describe('HomePage Integration', () => {
-  const mockCountries = [
-    {
-      name: { common: 'Sri Lanka' },
-      flags: { svg: 'sri-lanka-flag.svg' },
-      capital: ['Colombo'],
-      region: 'Asia',
-      population: 21803000,
-      languages: { sin: 'Sinhala', tam: 'Tamil' },
-      cca3: 'LKA',
-    },
-    {
-      name: { common: 'United States' },
-      flags: { svg: 'us-flag.svg' },
-      capital: ['Washington, D.C.'],
-      region: 'Americas',
-      population: 331002651,
-      languages: { eng: 'English' },
-      cca3: 'USA',
-    },
-  ];
-
+    const mockCountries = [
+      {
+        name: { common: 'Sri Lanka' },
+        flags: { svg: 'sri-lanka-flag.svg' },
+        capital: ['Colombo'],
+        region: 'Asia',
+        population: 21803000,
+        languages: { sin: 'Sinhala', tam: 'Tamil' },
+        cca3: 'LKA',
+      },
+      {
+        name: { common: 'United States' },
+        flags: { svg: 'us-flag.svg' },
+        capital: ['Washington, D.C.'],
+        region: 'Americas',
+        population: 331002651,
+        languages: { eng: 'English' },
+        cca3: 'USA',
+      },
+    ];
+    
   beforeEach(() => {
     // Reset all mocks before each test
     fetchAllCountries.mockReset();

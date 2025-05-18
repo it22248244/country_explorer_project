@@ -60,7 +60,7 @@ describe('EnhancedSearchBar Component', () => {
     await waitFor(() => {
       expect(fetchCountryByName).toHaveBeenCalledWith('Sri');
     });
-
+    
     // Verify that onSearch was called with the correct value
     expect(mockOnSearch).toHaveBeenCalledWith('Sri');
   });

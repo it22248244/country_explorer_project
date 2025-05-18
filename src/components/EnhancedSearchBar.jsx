@@ -36,9 +36,9 @@ const EnhancedSearchBar = ({ onSearch }) => {
         if (countries && Array.isArray(countries)) {
           const sortedCountries = countries.sort((a, b) => 
             a.name.common.localeCompare(b.name.common)
-          );
+      );
           setSuggestions(sortedCountries.slice(0, 5)); // Show top 5 suggestions
-          setShowSuggestions(true);
+      setShowSuggestions(true);
         } else {
           setSuggestions([]);
           setShowSuggestions(false);
