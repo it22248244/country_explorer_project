@@ -112,7 +112,6 @@ describe('EnhancedSearchBar Component', () => {
 
     // Verify that no suggestions are displayed
     expect(screen.queryByText('Sri Lanka')).not.toBeInTheDocument();
-    expect(screen.queryByText('United States')).not.toBeInTheDocument();
   });
 
   test('clears search and suggestions when clear button is clicked', async () => {

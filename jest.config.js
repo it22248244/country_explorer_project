@@ -8,7 +8,7 @@ module.exports = {
     transform: {
       '^.+\\.(js|jsx)$': 'babel-jest'
     },
-    testMatch: ['**/__tests__/**/*.test.(js|jsx)'],
+    testMatch: ['**/__Tests__/**/*.test.(js|jsx)'],
     collectCoverageFrom: [
       'src/**/*.{js,jsx}',
       '!src/index.js'
